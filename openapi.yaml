@@ -1,0 +1,158 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Fred Kelili Documentation API
+  license:
+    name: MIT
+servers:
+  - url: https://api.fredkelili.com/v1
+paths:
+  /docs:
+    get:
+      summary: List all documentation entries
+      operationId: listDocs
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: A paginated array of documentation entries
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Docs'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new documentation entry
+      operationId: createDoc
+      responses:
+        201:
+          description: Documentation entry created successfully
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /docs/{docId}:
+    get:
+      summary: Retrieve information for a specific documentation entry
+      operationId: getDocById
+      parameters:
+        - name: docId
+          in: path
+          required: true
+          description: The unique identifier of the documentation entry
+          schema:
+            type: string
+      responses:
+        200:
+          description: Detailed information about the requested documentation entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Docs'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users:
+    get:
+      summary: List all users in the documentation system
+      operationId: listUsers
+      parameters:
+        - name: status
+          in: query
+          description: Filter users by account status
+          required: false
+          schema:
+            type: string
+            enum: [active, inactive, pending]
+      responses:
+        200:
+          description: A paginated list of users with basic profile information
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Doc:
+      required:
+        - id
+        - title
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        content:
+          type: string
+        author:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Docs:
+      type: array
+      items:
+        $ref: '#/components/schemas/Doc'
+    User:
+      required:
+        - id
+        - email
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        status:
+          type: string
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

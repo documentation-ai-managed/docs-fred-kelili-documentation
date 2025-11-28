@@ -1,0 +1,158 @@
+---
+title: Webhooks
+description: Set up webhooks to automate workflows and integrate with external systems
+---
+
+## Webhooks Overview
+
+You automate documentation workflows and integrate with external systems using webhooks in Fred Kelili Documentation. Webhooks deliver real-time notifications when events occur, enabling seamless integration with your development pipeline and team communication tools.
+
+Webhooks trigger actions in response to documentation changes, user activities, and system events. You configure webhook endpoints that receive HTTP POST requests with event data in JSON format.
+
+<Steps>
+  <Step title="Create Webhook" icon="webhook">
+    Navigate to integrations settings and create a new webhook endpoint.
+    
+    ```javascript
+const createWebhook = async (url, events) => {
+  const response = await fetch('/api/webhooks', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url, events })
+  });
+  return response.json();
+};
+```
+  </Step>
+  <Step title="Configure Events" icon="settings">
+    Select which events should trigger the webhook.
+  </Step>
+  <Step title="Test Integration" icon="zap">
+    Send test events to verify your endpoint works correctly.
+  </Step>
+</Steps>
+
+## Event Types
+
+You respond to various documentation events with targeted webhook configurations.
+
+<Tabs>
+  <Tab title="Document Events" icon="file-text">
+    Track changes to documents and content.
+    
+    | Event | Description | Payload |
+    |-------|-------------|---------|
+    | document.created | New document added | Document metadata |
+    | document.updated | Content modified | Change details |
+    | document.deleted | Document removed | Deletion info |
+  </Tab>
+  <Tab title="User Events" icon="users">
+    Monitor user activities and access patterns.
+    
+    <CodeGroup tabs="Created,Updated">
+      ```json
+      {
+        "event": "user.created",
+        "timestamp": "2024-01-15T10:30:00Z",
+        "data": {
+          "userId": "12345",
+          "email": "newuser@example.com",
+          "role": "editor"
+        }
+      }
+      ```
+      ```json
+      {
+        "event": "user.updated",
+        "timestamp": "2024-01-15T11:00:00Z",
+        "data": {
+          "userId": "12345",
+          "changes": {
+            "role": "admin"
+          }
+        }
+      }
+      ```
+    </CodeGroup>
+  </Tab>
+</Tabs>
+
+## Security and Validation
+
+You secure webhook communications with authentication and validation mechanisms.
+
+<Columns cols={2}>
+  <Card title="Signature Verification" icon="lock" href="#signatures">
+    Verify webhook authenticity using cryptographic signatures.
+  </Card>
+  <Card title="IP Whitelisting" icon="shield" href="#ip-whitelist">
+    Restrict webhook delivery to trusted IP addresses.
+  </Card>
+</Columns>
+
+## Integration Examples
+
+You build powerful integrations using webhook events and external services.
+
+<ExpandableGroup>
+  <Expandable title="Slack Notifications" default-open="true">
+    Send documentation updates to Slack channels for team awareness.
+    
+    ```javascript
+const handleSlackWebhook = async (event) => {
+  if (event.type === 'document.updated') {
+    await fetch(process.env.SLACK_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: `Document ${event.data.title} was updated`
+      })
+    });
+  }
+};
+```
+  </Expandable>
+  <Expandable title="GitHub Actions" default-open="false">
+    Trigger CI/CD pipelines when documentation changes occur.
+  </Expandable>
+  <Expandable title="Email Alerts" default-open="false">
+    Send email notifications for critical documentation events.
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="tip">Use webhook retry logic to handle temporary failures and ensure reliable delivery of event notifications.</Callout>
+
+## Error Handling
+
+You manage webhook failures and ensure reliable event delivery.
+
+<ParamField header="X-Webhook-Signature" param-type="string" required="false">
+  Cryptographic signature for request verification.
+</ParamField>
+
+<ParamField header="X-Webhook-Retry" param-type="integer" required="false">
+  Retry attempt number for failed deliveries.
+</ParamField>
+
+```javascript
+const verifyWebhook = (payload, signature, secret) => {
+  const crypto = require('crypto');
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload)
+    .digest('hex');
+  return signature === `sha256=${expectedSignature}`;
+};
+```
+
+## Best Practices
+
+You follow these guidelines to maximize webhook reliability and security.
+
+| Practice | Description | Benefit |
+|----------|-------------|---------|
+| Idempotent Handlers | Design handlers to process events multiple times safely | Prevents duplicate actions |
+| Rate Limiting | Implement rate limits on webhook endpoints | Protects against abuse |
+| Logging | Log all webhook events and responses | Enables debugging and monitoring |
+
+With webhooks, you create a responsive documentation ecosystem that integrates seamlessly with your development and communication workflows.

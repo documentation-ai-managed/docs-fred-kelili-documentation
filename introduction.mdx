@@ -1,0 +1,108 @@
+---
+title: Introduction
+description: Overview of Fred Kelili Documentation and its core capabilities
+---
+
+## Getting Started
+
+Fred Kelili Documentation provides a comprehensive platform for organizing and managing project documentation. You create structured, searchable knowledge bases that enhance team collaboration and streamline information access. This documentation space serves as your centralized hub for all project-related materials, from technical guides to operational procedures.
+
+The platform offers intuitive tools for content creation, version control, and team sharing. You build documentation that scales with your projects, ensuring consistent information delivery across your organization.
+
+<Columns cols={3}>
+  <Card title="Quick Setup" icon="rocket" href="#quick-setup">
+    Get your documentation space running in minutes with our guided setup process.
+  </Card>
+  <Card title="Team Collaboration" icon="users" href="#collaboration">
+    Enable seamless teamwork with real-time editing and comment features.
+  </Card>
+  <Card title="Search & Discovery" icon="search" href="#search">
+    Find information instantly with powerful search and tagging capabilities.
+  </Card>
+</Columns>
+
+## Core Features
+
+You access a rich set of features designed to make documentation management efficient and effective.
+
+<Tabs>
+  <Tab title="Content Management" icon="file-text">
+    Create and organize documentation with markdown support, version history, and collaborative editing.
+    
+    <CodeGroup tabs="Markdown,HTML">
+      ```markdown
+      # My Documentation
+      
+      This is a sample page with **bold** and *italic* text.
+      ```
+      ```html
+      <h1>My Documentation</h1>
+      <p>This is a sample page with <strong>bold</strong> and <em>italic</em> text.</p>
+      ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="Team Features" icon="users">
+    Invite team members, assign permissions, and track changes with detailed audit logs.
+    
+    <Steps>
+      <Step title="Invite Members" icon="user-plus">
+        Navigate to team settings and add member emails to grant access.
+        
+        <CodeGroup tabs="API,UI">
+          ```javascript
+          const inviteUser = async (email) => {
+            const response = await fetch('/api/team/invite', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, role: 'editor' })
+            });
+            return response.json();
+          };
+          ```
+          ```json
+          {
+            "email": "john@example.com",
+            "role": "editor"
+          }
+          ```
+        </CodeGroup>
+      </Step>
+      <Step title="Set Permissions" icon="shield">
+        Configure access levels for different documentation sections.
+      </Step>
+      <Step title="Monitor Activity" icon="activity">
+        Review edit history and collaboration metrics.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Best Practices
+
+You follow these guidelines to maximize the value of your documentation space.
+
+<ExpandableGroup>
+  <Expandable title="Content Organization" default-open="true">
+    Structure your documentation with clear categories and logical hierarchies. Use consistent naming conventions and maintain a table of contents for easy navigation.
+  </Expandable>
+  <Expandable title="Version Control" default-open="false">
+    Leverage version history to track changes and maintain documentation accuracy. Create backups regularly and establish review processes for critical updates.
+  </Expandable>
+  <Expandable title="Accessibility" default-open="false">
+    Ensure your documentation is accessible to all team members. Use clear language, provide alt text for images, and maintain consistent formatting.
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="tip">Start small with your most frequently accessed information, then expand your documentation coverage gradually.</Callout>
+
+## Getting Help
+
+You access support resources and community assistance when you need guidance.
+
+| Resource | Description | Link |
+|----------|-------------|------|
+| User Guide | Comprehensive tutorials and examples | `/guide` |
+| API Reference | Technical API documentation | `/api` |
+| Community Forum | Connect with other users | `/community` |
+
+With Fred Kelili Documentation, you build a robust knowledge management system that grows with your team's needs and ensures consistent information delivery across your organization.

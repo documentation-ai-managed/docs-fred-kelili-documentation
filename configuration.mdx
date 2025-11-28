@@ -1,0 +1,147 @@
+---
+title: Configuration
+description: Configure Fred Kelili Documentation settings and customize your workspace
+---
+
+## Configuration Basics
+
+You customize Fred Kelili Documentation to match your team's workflow and organizational requirements. Configuration options range from basic workspace settings to advanced integrations that enhance productivity.
+
+The configuration system provides flexibility while maintaining simplicity. You access settings through an intuitive interface that guides you through setup and customization processes.
+
+<Steps>
+  <Step title="Access Settings" icon="settings">
+    Navigate to the settings panel from the main dashboard.
+    
+    ```javascript
+const openSettings = () => {
+  window.location.href = '/settings';
+};
+```
+  </Step>
+  <Step title="Workspace Setup" icon="home">
+    Configure basic workspace information and branding.
+  </Step>
+  <Step title="User Management" icon="users">
+    Set up user roles and permissions.
+  </Step>
+  <Step title="Integrations" icon="plug">
+    Connect external services and tools.
+  </Step>
+</Steps>
+
+## Workspace Settings
+
+You define the fundamental characteristics of your documentation space.
+
+<Tabs>
+  <Tab title="General" icon="sliders">
+    Set workspace name, description, and basic preferences.
+    
+    | Setting | Description | Default |
+    |---------|-------------|---------|
+    | Workspace Name | Display name for your documentation space | My Documentation |
+    | Description | Brief overview of your workspace | Welcome message |
+    | Timezone | Default timezone for timestamps | UTC |
+  </Tab>
+  <Tab title="Branding" icon="palette">
+    Customize colors, logos, and visual elements.
+    
+    <CodeGroup tabs="CSS,JSON">
+      ```css
+      :root {
+        --brand-color: #3B82F6;
+        --heading-color: #1a1a1a;
+        --text-color: #374151;
+      }
+      ```
+      ```json
+      {
+        "brandColor": "#3B82F6",
+        "logoUrl": "https://example.com/logo.png",
+        "favicon": "https://example.com/favicon.ico"
+      }
+      ```
+    </CodeGroup>
+  </Tab>
+</Tabs>
+
+## User and Permissions
+
+You manage user access and permissions through comprehensive configuration options.
+
+<Columns cols={2}>
+  <Card title="Role Management" icon="user-check" href="#roles">
+    Define custom roles and assign capabilities.
+  </Card>
+  <Card title="Access Policies" icon="shield" href="#policies">
+    Set document-level and folder-level permissions.
+  </Card>
+</Columns>
+
+## Integrations
+
+You extend functionality through integrations with popular tools and services.
+
+<ExpandableGroup>
+  <Expandable title="GitHub Integration" default-open="true">
+    Connect your documentation to GitHub repositories for version control and collaboration.
+    
+    ```javascript
+const connectGitHub = async (token) => {
+  const response = await fetch('/api/integrations/github', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ repo: 'myorg/docs' })
+  });
+  return response.json();
+};
+```
+  </Expandable>
+  <Expandable title="Slack Notifications" default-open="false">
+    Send notifications to Slack channels for documentation updates and mentions.
+  </Expandable>
+  <Expandable title="API Webhooks" default-open="false">
+    Trigger external actions when documentation changes occur.
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="info">Regularly review and update your configuration settings to ensure they align with your team's evolving needs.</Callout>
+
+## Advanced Settings
+
+You access powerful configuration options for complex requirements.
+
+<ParamField query="exportFormat" param-type="string" required="false">
+  Specify export format for documentation downloads.
+</ParamField>
+
+<ParamField body="customCSS" param-type="string" required="false">
+  Custom CSS code for advanced styling.
+</ParamField>
+
+```javascript
+const updateAdvancedSettings = async (settings) => {
+  const response = await fetch('/api/settings/advanced', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(settings)
+  });
+  return response.json();
+};
+```
+
+## Backup and Recovery
+
+You protect your documentation with automated backup and recovery options.
+
+| Feature | Description | Configuration |
+|---------|-------------|---------------|
+| Automatic Backups | Daily backups to cloud storage | Enable in settings |
+| Manual Exports | Download full workspace data | Available in admin panel |
+| Recovery Points | Restore to specific timestamps | Access recovery panel |
+
+With proper configuration, you create a documentation environment that perfectly fits your team's workflow and enhances overall productivity.
